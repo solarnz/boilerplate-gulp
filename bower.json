@@ -1,0 +1,20 @@
+{
+  "name": "countdown",
+  "version": "1.0.0",
+  "authors": [
+    "Chris Trotman <chris@trotman.io>"
+  ],
+  "description": "A countdown timer",
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
