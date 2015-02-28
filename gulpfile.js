@@ -7,6 +7,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var babel = require('gulp-babel');
 var jshint = require('gulp-jshint');
+var karma = require('gulp-karma');
 var reload = browserSync.reload;
 
 gulp.task('default', ['lint', 'js', 'html'], function() {
@@ -59,4 +60,45 @@ gulp.task('serve', ['js', 'html'], function() {
   gulp.watch(bower.main, ['js:src', reload]);
   gulp.watch(['./bower.json'], ['js', reload]);
   gulp.watch(['src/views/{*,}*.htm{,l}'], ['html', reload]);
+});
+
+gulp.task('test', function() {
+  var bower = require('./bower.json');
+
+  var sources = [].concat(
+    mainBowerFiles({includeDev: true}),
+    bower.main,
+    ['src/scripts/{,*}.spec.js']
+  );
+
+  return gulp.src(sources)
+             .pipe(require('gulp-print')())
+             .pipe(karma({
+               configFile: 'karma.conf.js',
+               action: 'run',
+               reporters: ['mocha', 'coverage']
+             }))
+  ;
+});
+
+gulp.task('test:dev', function() {
+  var bower = require('./bower.json');
+
+  var sources = [].concat(
+    mainBowerFiles({includeDev: true}),
+    bower.main,
+    ['src/scripts/{,*}.spec.js']
+  );
+
+  return gulp.src(sources)
+             .pipe(require('gulp-print')())
+             .pipe(karma({
+               configFile: 'karma.conf.js',
+               action: 'autowatch',
+               reporters: ['mocha'],
+               mochaReporter: {
+                 output: 'autowatch'
+               }
+             }))
+  ;
 });
