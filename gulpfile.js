@@ -12,10 +12,11 @@ var options = {
   buildDir: 'build',
 };
 
-require('./gulp/js.js')(options);
-require('./gulp/tests.js')(options);
-require('./gulp/lint.js')(options);
+require('./gulp/deploy.js')(options);
 require('./gulp/html.js')(options);
+require('./gulp/js.js')(options);
+require('./gulp/lint.js')(options);
 require('./gulp/serve.js')(options);
+require('./gulp/tests.js')(options);
 
-gulp.task('default', ['lint', 'js', 'html']);
+gulp.task('default', ['lint', 'test', 'js', 'html']);
