@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var rimraf = require('rimraf');
 var s3 = require('gulp-s3');
+var cloudflare = require('gulp-cloudflare');
 
 module.exports = function(options) {
   gulp.task('deploy', function() {
@@ -17,6 +18,12 @@ module.exports = function(options) {
       region: process.env.AWS_REGION,
     };
 
+    var cloudflareSettings = {
+      token: process.env.CLOUDFLARE_TOKEN,
+      email: process.env.CLOUDFLARE_EMAIL,
+      domain: process.env.CLOUDFLARE_DOMAIN,
+    };
+
     rimraf(options.buildDir, function() {
       gulp.start(['default'], function() {
         var sources = [
@@ -24,6 +31,7 @@ module.exports = function(options) {
           '!' + options.buildDir + '/**/*.map'
         ];
 
+        cloudflare(cloudflareSettings);
         return gulp.src(sources, {base: ''})
                    .pipe(s3(awsSettings));
       });
