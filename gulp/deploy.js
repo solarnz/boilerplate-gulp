@@ -8,6 +8,7 @@ module.exports = function(options) {
   gulp.task('deploy', function() {
     // Modify options so that we output to where we want to.
     options.buildDir = 'prod';
+    options.version = true;
 
     var awsSettings = {
       key: process.env.AWS_ACCESS_KEY_ID,
@@ -15,7 +16,6 @@ module.exports = function(options) {
       bucket: process.env.AWS_BUCKET,
       region: process.env.AWS_REGION,
     };
-    console.log(awsSettings);
 
     rimraf(options.buildDir, function() {
       gulp.start(['default'], function() {

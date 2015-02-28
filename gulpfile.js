@@ -10,6 +10,7 @@ var options = {
     base: 'src/views/'
   },
   buildDir: 'build',
+  version: false,
 };
 
 require('./gulp/deploy.js')(options);
