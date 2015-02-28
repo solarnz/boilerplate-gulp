@@ -6,7 +6,6 @@ var mainBowerFiles = require('main-bower-files');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var babel = require('gulp-babel');
-var bower = require('./bower.json');
 var jshint = require('gulp-jshint');
 var reload = browserSync.reload;
 
@@ -22,6 +21,7 @@ gulp.task('js:dependencies', function() {
 });
 
 gulp.task('js:src', function() {
+  var bower = require('./bower.json');
   return gulp.src(bower.main)
              .pipe(sourcemaps.init())
              .pipe(babel())
@@ -34,6 +34,7 @@ gulp.task('js', ['js:dependencies', 'js:src']);
 
 gulp.task('lint', ['lint:js']);
 gulp.task('lint:js', function() {
+  var bower = require('./bower.json');
   return gulp.src(bower.main)
              .pipe(jshint())
              .pipe(jshint.reporter('jshint-stylish'))
@@ -54,6 +55,8 @@ gulp.task('serve', ['js', 'html'], function() {
     }
   });
 
+  var bower = require('./bower.json');
   gulp.watch(bower.main, ['js:src', reload]);
+  gulp.watch(['./bower.json'], ['js', reload]);
   gulp.watch(['src/views/{*,}*.htm{,l}'], ['html', reload]);
 });
