@@ -7,12 +7,6 @@ var reload = browserSync.reload;
 gulp.task('default', ['lint', 'js', 'html'], function() {
 });
 
-gulp.task('html', function() {
-  return gulp.src(['src/views/{*,}*.htm{,l}'], {base: 'src/views'})
-      .pipe(gulp.dest('build'))
-  ;
-});
-
 gulp.task('serve', ['js', 'html'], function() {
   browserSync({
     server: {
@@ -29,9 +23,14 @@ gulp.task('serve', ['js', 'html'], function() {
 var options = {
   name: 'countdown',
   specFiles: ['src/scripts/{,*}.spec.js'],
+  views: {
+    src: ['src/views/{,*/}*.htm{,l}'],
+    base: 'src/views/'
+  },
   buildDir: 'build',
 };
 
 require('./gulp/js.js')(options);
 require('./gulp/tests.js')(options);
 require('./gulp/lint.js')(options);
+require('./gulp/html.js')(options);
