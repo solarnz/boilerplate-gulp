@@ -39,3 +39,4 @@ bower_components
 build
 .envrc
 prod
+rev-manifest.json
